@@ -12,9 +12,23 @@ const endpoint = `https://democoffe-34a53-default-rtdb.firebaseio.com/.json`;
 
 
 function App() {
+  
+  /*const [carProducts, setCarProducts]=useState([]);
+  const addToCart =(product)=>{
+       if(carProducts.find(p =>p.id === product.id)){
+         const newCarProducts= carproducts  
+        //setCarProducts
+       }
+  }
+*/
+
+  /*const newProducts = products.map((product) => {
+    if (product.id !== id) return product;
+    else return { ...product, price: product.price-15 };
+  });
+*/
 
   const [products, setProducts]=useState([]);
-
   useEffect(
     () => {
   //    console.log('obteniendo datos de internet')
@@ -26,16 +40,7 @@ function App() {
     },
     []
   );
-  /*
-  useEffect(
-    ()=>{
-     axios.get(endpoint)
-    .then(res=>{    persons = res.data;
-    
-    })
-    .catch(error=>{ return error; })
-   },[])
-*/
+
 console.log(products)
 const onNormalClick = (id) => {
   const newProducts = products.map((product) => {
@@ -45,8 +50,6 @@ const onNormalClick = (id) => {
   setProducts(newProducts);
 };
 
-
-
 const onMediumClick = (id) => {
   const newProducts = products.map((product) => {
     if (product.id !== id) return product;
@@ -54,8 +57,6 @@ const onMediumClick = (id) => {
   });
   setProducts(newProducts);
 };
-
-
 const onPlusProductClick = (id) => {
   const newProducts = products.map((product) => {
     if (product.id !== id) return product;
@@ -63,7 +64,6 @@ const onPlusProductClick = (id) => {
   });
   setProducts(newProducts);
 };
-
 const onPlusProduct= products.reduce((accumm,product) => {
   return accumm+product.qty
 },0);
@@ -88,7 +88,6 @@ const onEmptyCar = () => {
   });
   setProducts(newProducts);
 };
-
   return (
     <div>
        <Nav

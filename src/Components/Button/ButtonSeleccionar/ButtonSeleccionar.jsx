@@ -8,7 +8,7 @@ const ButtonSeleccionar = ({txtbtn1,txtbtn2,txtbtn3,onNormalClick,onMediumClick}
     const handleMediano= () => setselecciona(2);
     const handleGrande = () => setselecciona(3);
     
-    let normal
+    let normal=true
     let mediano
     let grande
    switch (seleccionado) {
