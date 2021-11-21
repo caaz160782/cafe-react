@@ -1,8 +1,9 @@
 import styles from "./ShoppingCard.module.scss"
-const ShoppingCard = ({onPlusProduct,total}) => {
+const ShoppingCard = ({onPlusProduct,onTotalProduct}) => {
     return (
-        <div className={styles.shop}>
-           <span>{onPlusProduct}</span> <span>Total :${total}</span>
+        <div className={styles.shop} >
+             <span className={styles.infcar}>{onPlusProduct} </span>
+             <span>Total :${onTotalProduct} </span>
         </div>
     )
 }

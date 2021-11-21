@@ -1,9 +1,18 @@
 .contbutton{
-    align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content:center;  
+    justify-content:center;
+    margin-bottom: 8px;  
 }
+
+.contagregar{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items:center;
+  
+}
+
 
 .btnAgregar {
   align-items: center;

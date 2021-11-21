@@ -36,8 +36,16 @@ function App() {
     .catch(error=>{ return error; })
    },[])
 */
-
 console.log(products)
+const onNormalClick = (id) => {
+  const newProducts = products.map((product) => {
+    if (product.id !== id) return product;
+    else return { ...product, price: product.price-15 };
+  });
+  setProducts(newProducts);
+};
+
+
 
 const onMediumClick = (id) => {
   const newProducts = products.map((product) => {
@@ -56,15 +64,15 @@ const onPlusProductClick = (id) => {
   setProducts(newProducts);
 };
 
-
 const onPlusProduct= products.reduce((accumm,product) => {
   return accumm+product.qty
 },0);
 
-const onTotalProduct= products.reduce((accumm,product) => {
-  return accumm+product.price
-},0);
+const qtyProduct= products.filter((products)=> products.qty !==0)
 
+const onTotalProduct=qtyProduct.reduce((accum,product)=>{
+   return parseFloat(accum+ product.price *product.qty)
+},0)
 
 const onlessProductClick = (id) => {
   const newProducts = products.map((product) => {
@@ -74,12 +82,19 @@ const onlessProductClick = (id) => {
   setProducts(newProducts);
 };
 
+const onEmptyCar = () => {
+  const newProducts = products.map((product) => {
+      return { ...product, qty: 0};
+  });
+  setProducts(newProducts);
+};
 
   return (
     <div>
        <Nav
           onPlusProduct={onPlusProduct}
           onTotalProduct={onTotalProduct}
+          onEmptyCar={() => onEmptyCar()}
        />
      <div className="container">
        <Routes>
@@ -92,6 +107,7 @@ const onlessProductClick = (id) => {
                                         titleCard={title}
                                         price={price}
                                         qty={qty}
+                                        onNormalClick={()=>onNormalClick(id)}
                                         onMediumClick={()=>onMediumClick(id)}
                                         onPlusProductClick={()=>onPlusProductClick(id)}
                                         onlessProductClick={()=>onlessProductClick(id)}

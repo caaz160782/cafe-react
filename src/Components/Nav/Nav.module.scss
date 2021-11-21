@@ -32,11 +32,11 @@ a {
     padding: 0;
     display: flex;
  }
- 
+
  .navigation li {
-    flex: 3;    
+    flex: 3;
  }
- 
+
  .navigation .user {
     flex: 1;
  }
@@ -45,24 +45,21 @@ a {
     .navigation ul {
        flex-wrap: wrap;
     }
-    
     .navigation li {
        flex: 1 1 50%;
     }
- 
     .navigation .user {
        flex: 1 1 33.33%;
     }
  }
- 
+
  @media all and (max-width: 480px) {
     .navigation li {
        flex-basis: 100%;
     }
- 
+
     .navigation .user {
        flex-basis: 50%;
     }
  }
- 
  
