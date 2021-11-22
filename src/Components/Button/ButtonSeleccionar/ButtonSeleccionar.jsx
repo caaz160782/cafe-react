@@ -6,26 +6,26 @@ const ButtonSeleccionar = ({txtbtn1,txtbtn2,txtbtn3,onNormalClick,onMediumClick}
     
     const handleNormal = () => setselecciona(1);
     const handleMediano= () => setselecciona(2);
-    const handleGrande = () => setselecciona(3);
+    //const handleGrande = () => setselecciona(3);
     
     let normal=true
     let mediano
-    let grande
+    //let grande
    switch (seleccionado) {
         case 1:
             normal=true;
             mediano=false
-            grande=false
+      //      grande=false
           break;
         case 2:
             normal=false;
             mediano=true
-            grande=false
+        //    grande=false
             break;
         case 3:
             normal=false;
             mediano=false
-            grande=true
+       //     grande=true
           break;
         default:
          //Declaraciones ejecutadas cuando ninguno de los valores coincide con el valor de la expresión

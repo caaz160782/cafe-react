@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styles from './Nav.module.scss'
 import ShoppingCard from '../ShoppingCard/ShoppingCard';
 
-const Nav = ({onPlusProduct,onTotalProduct,onEmptyCar}) => {
+const Nav = ({carProducts,onEmptyCar}) => {
     return (
     <div className={styles.main}>
       <nav className={styles.navigation}>
@@ -11,9 +11,7 @@ const Nav = ({onPlusProduct,onTotalProduct,onEmptyCar}) => {
             <li><Link to="/coffe">Coffe</Link></li>
             <li><Link to="/cake">Cake</Link></li>
             <li><Link to="/carshop"><i className="fas fa-shopping-cart">
-                                        <ShoppingCard onPlusProduct={onPlusProduct}
-                                                      onTotalProduct={onTotalProduct}
-                                                    />
+                                        <ShoppingCard carProducts={carProducts}  />
                                     </i>
                                     </Link></li>
             <li><Link to="#"><i className="fas fa-trash" onClick={onEmptyCar}> </i> </Link></li>
