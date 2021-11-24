@@ -1,6 +1,7 @@
 import {useState } from "react";
 import Nav from "./Nav/Nav"
 import { Route, Routes} from "react-router-dom";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Index from "./Index";
 import Cafes from "./Cafes/Cafes"
 import Cakes from "./Cakes/Cake"
@@ -10,8 +11,6 @@ import './App.css';
 function App() {
 
 const [carProducts, setCarProducts]=useState([]);
-
-const [cafes, setCafes]=useState([]);
 const [cakes, setCakes]=useState([]);
 
 const addToCart = (product) => {
@@ -47,8 +46,6 @@ return (
           <Route path="/coffe"   element={<Cafes
                                                  carProducts={carProducts}
                                                  setCarProducts={setCarProducts}
-                                                 cafes={cafes}
-                                                 setCafes={setCafes}
                                                  addToCart={addToCart}
                                                  resToCart={resToCart}
                                                 />}/>

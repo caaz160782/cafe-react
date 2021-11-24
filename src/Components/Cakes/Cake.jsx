@@ -1,47 +1,45 @@
 import React from 'react'
 import Card from '../Card/Card'
 import styles from "./Cakes.module.scss"
-
-import { useEffect } from "react";
+import {useState, useEffect } from "react";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const endpoint = `https://democoffe-34a53-default-rtdb.firebaseio.com/pasteles/.json`;
 
 const Cakes = ({cakes,setCakes,carProducts,addToCart,resToCart}) => {
-  useEffect(() => {
-        fetch(endpoint).then((res) => {
-        res.json().then((data) => {
-          if(carProducts.length ===0){
-             setCakes(data);
-           }
-        });
-      });
-    },
-    [setCakes]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-//console.log(cakes)
+useEffect(
+  () => {
+    let elComponenteExiste = true
+    fetch(endpoint).then((result) =>
+      result.json().then((data) => {
+        if (elComponenteExiste){
+          setCakes(data);
+        }
+      })
+  ).catch((e) => {
+    console.log(e)
+    setError(true)
+  }).finally(()=> setLoading(false));
+ return () => {
+    elComponenteExiste = false
+  }
+}
+, []);
 
-const changeQtyP=(product)=>{
-      const {id,title,url,price}=product
-          if(cakes.find(p =>p.id === product.id)){
-                const newCafes= cakes.map(x=>x.id === product.id
-                   ?({...x,qty:x.qty +1  })
-                   :x)
-            return   setCakes(newCafes)
-           }
-            return   setCakes(
-            [...cakes, { id,title,url,price,qty:1 }])
-     }
+if (loading)
+return <Loader type="Puff" color="#00BFFF" height={100} width={100} />;
 
-const changeQtyM=(product)=>{
-     if(cakes.find(p =>p.id === product.id)){
-       const newCafes= cakes.map(x=>x.id === product.id
-         ?({...x,qty:x.qty -1  })
-         :x)
-       return setCakes(newCafes)
-     }
-   }
-
-   const onMediumClick = (id) => {
+if (error)
+return (
+  <div className="alert alert-danger">
+    Error al obtener los datos. Por favor, intentar nuevamente
+  </div>
+);
+ const onMediumClick = (id) => {
     const newProducts = cakes.map((product) => {
       if (product.id !== id) return product;
       else return { ...product, price: product.price+15 };
@@ -59,7 +57,9 @@ const changeQtyM=(product)=>{
 
  return (
     <div className={styles.containercake}>
-      { cakes.map(({id,title,url,price,qty}) => {
+      { cakes.map(({id,title,url,price}) => {
+         const carItem = carProducts.find(item=> item.id === id)
+         const qty= carItem?carItem.qty :0
          return(
              <Card
               key={id}
@@ -77,8 +77,6 @@ const changeQtyM=(product)=>{
               addToCart={addToCart}
               onMediumClick={onMediumClick}
               onNormalClick={onNormalClick}
-              changeQtyP={changeQtyP}
-              changeQtyM={changeQtyM}
               resToCart={resToCart}
             />
           )

@@ -1,25 +1,48 @@
 import React from 'react'
 import Card from '../Card/Card'
 import styles from "./Cafes.module.scss"
-
-import { useEffect, } from "react";
+import { useState,useEffect, } from "react";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const endpoint = `https://democoffe-34a53-default-rtdb.firebaseio.com/cafe/.json`;
 
-const Cafes = ({carProducts,addToCart,resToCart,cafes,setCafes}) => {
+//const Cafes = ({carProducts,addToCart,resToCart,cafes,setCafes}) => {
+  const Cafes = ({carProducts,addToCart,resToCart}) => {
+  const [cafes, setCafes]=useState([]);
 
-  
-   useEffect(() => {
-        fetch(endpoint).then((res) => {
-        res.json().then((data) => {
-          if(carProducts.length ===0){
-           setCafes(data);
-          }
-        });
-      });
-    },
-    [setCafes]);
- 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+    useEffect(
+      () => {
+        let elComponenteExiste = true
+        fetch(endpoint).then((result) =>
+          result.json().then((data) => {
+            if (elComponenteExiste){
+              setCafes(data);
+            }
+          })
+      ).catch((e) => {
+        console.log(e)
+        setError(true)
+      }).finally(()=> setLoading(false));
+     return () => {
+        elComponenteExiste = false
+      }
+    }
+    , []);
+
+    if (loading)
+    return <Loader type="Puff" color="#00BFFF" height={100} width={100} />;
+
+  if (error)
+    return (
+      <div className="alert alert-danger">
+        Error al obtener los datos. Por favor, intentar nuevamente
+      </div>
+    );
+
  const onMediumClick = (id) => {
       const newProducts = cafes.map((product) => {
         if (product.id !== id) return product;
@@ -34,32 +57,12 @@ const Cafes = ({carProducts,addToCart,resToCart,cafes,setCafes}) => {
       else return { ...product, price: product.price-15 };
     });
     setCafes(newProducts);
-  };    
-
-const changeQtyP=(product)=>{
-      const {id,title,url,price}=product
-          if(cafes.find(p =>p.id === product.id)){
-                const newCafes= cafes.map(x=>x.id === product.id
-                   ?({...x,qty:x.qty +1  })
-                   :x)
-            return   setCafes(newCafes)
-           }
-            return   setCafes(
-            [...cafes, { id,title,url,price,qty:1 }])
-     }
-
-const changeQtyM=(product)=>{
-     if(cafes.find(p =>p.id === product.id)){
-       const newCafes= cafes.map(x=>x.id === product.id
-         ?({...x,qty:x.qty -1  })
-         :x)
-       return setCafes(newCafes)
-     }
- }
-
+  };
   return (
         <div className={styles.containerCafe}>
-           {cafes.map(({id,title,url,price,qty}) => {
+           {cafes.map(({id,title,url,price}) => {
+             const carItem = carProducts.find(item=> item.id === id)
+             const qty= carItem?carItem.qty :0
             return(
                 <Card
                  key={id}
@@ -75,9 +78,7 @@ const changeQtyM=(product)=>{
                  carProducts={carProducts}
                  onMediumClick={onMediumClick}
                  onNormalClick={onNormalClick}
-                 addToCart={addToCart}
-                 changeQtyP={changeQtyP}
-                 changeQtyM={changeQtyM}
+                 addToCart={addToCart}               
                  resToCart={resToCart}
                />
              )
